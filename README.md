@@ -20,5 +20,5 @@ scikit-image>=0.20
 
 hyperspy: 2.3.0
 
-py4dstem: 0.14.18
+py4dstem: 0.14.0
 
