@@ -1,0 +1,69 @@
+# Week 02 – 4D-STEM Virtual Detector Analysis (Si/SiGe)
+
+## Overview
+This project demonstrates basic analysis and visualization of a 4D-STEM dataset using Python and py4DSTEM.  
+A Si/SiGe heterostructure dataset is analyzed to illustrate how **virtual detectors** enable post-acquisition imaging and quantitative analysis.
+
+The workflow includes identification of navigation and signal axes, diffraction pattern analysis, virtual bright-field (BF) and annular dark-field (ADF) image reconstruction, and interface characterization using line profiles.
+
+---
+
+## Navigation and Signal Axes
+The 4D-STEM dataset has four dimensions and is reshaped into the form:
+
+- **Navigation (real space):** (Rx, Ry) = (77, 17)  
+- **Signal (reciprocal space):** (Qx, Qy) = (480, 448)
+
+Here, each scan position (Rx, Ry) contains a full 2D diffraction pattern in reciprocal space.  
+This explicit separation confirms that the dataset consists of **2 navigation axes and 2 signal axes**, as expected for 4D-STEM.
+
+---
+
+## Calibration and Diffraction Analysis
+The real-space scan step size is calibrated to **2.0 nm per pixel**.  
+A mean diffraction pattern is computed by averaging over all scan positions, and the **center of mass (CoM)** of the diffraction intensity is calculated to identify the position of the transmitted beam.
+
+Radial intensity profiles are extracted from the mean diffraction pattern (with the direct beam excluded) to characterize the distribution of scattered intensity in reciprocal space and to guide the selection of virtual detector geometries.
+
+---
+
+## Virtual Detector Reconstruction
+Virtual detectors are defined directly in reciprocal space and applied to the 4D-STEM dataset:
+
+- **Virtual Bright Field (BF):**  
+  Constructed by integrating intensity within a central disk around the transmitted beam.
+
+- **Virtual Annular Dark Field (ADF):**  
+  Constructed by integrating intensity over an outer annular region, excluding the central BF disk.
+
+Applying these virtual detectors produces real-space BF and ADF images on the scan grid without requiring any physical detector during acquisition.
+
+---
+
+## Visualization and Interface Analysis
+The virtual BF and ADF images are displayed using physical units (nanometers) with appropriate scale bars.
+
+- The **BF image** (shown in grayscale) is dominated by diffraction and phase contrast.
+- The **ADF image** (shown with a perceptually uniform colormap) exhibits clear **Z-contrast**, with the SiGe region appearing brighter than the Si region.
+
+To quantify the contrast across the heterostructure, a **Ry-averaged line profile** is extracted along the Rx direction.  
+The ADF line profile shows a clear intensity increase across the Si/SiGe interface, allowing the interface position to be estimated at approximately **136 nm**.
+
+---
+
+## Significance of Virtual Detectors
+This analysis highlights a key advantage of 4D-STEM:  
+**virtual detectors allow post-acquisition “replay” of the experiment** by redefining detector geometry entirely in software.
+
+From a single 4D-STEM dataset, multiple imaging modes (BF, ADF, and others) can be reconstructed and compared without additional experiments, enabling flexible, quantitative, and reproducible analysis.
+
+---
+
+## Outputs
+The notebook generates:
+- Mean and single-point diffraction patterns
+- Radial intensity profiles
+- Virtual BF and ADF images with physical scale bars
+- Line profiles demonstrating contrast across the Si/SiGe interface
+
+These results collectively demonstrate the principles and practical advantages of virtual detector imaging in 4D-STEM.
