@@ -1,39 +1,7 @@
-# Week 02 – 4D-STEM Virtual Detector Analysis (Si/SiGe)
+How virtual detectors allow post-acquisition imaging?
 
-## What is this assignment about?
-This assignment uses a 4D-STEM dataset of a Si/SiGe heterostructure to demonstrate how virtual detectors can be used to reconstruct different imaging modes (BF and ADF) after data acquisition and to analyze a material interface.
-
-## Dataset structure
-The 4D-STEM dataset has four dimensions
-- Real space (scan positions): Rx × Ry = 77 × 17
-- Reciprocal space (diffraction patterns): Qx × Qy = 480 × 448
-Each scan position contains a full 2D diffraction pattern.
-
-## Analysis workflow
-1. Load the 4D-STEM dataset and identify the navigation and signal axes.
-2. Set the real-space scan step size to 2.0 nm / pixel.
-3. Compute the mean diffraction pattern and the center of mass (CoM) of the transmitted beam.
-4. Extract a radial intensity profile from the mean diffraction pattern to guide detector design.
-5. Define virtual detectors:
-   - BF: integrate the central transmitted beam region
-   - ADF: integrate an outer annular scattering region
-6. Reconstruct virtual BF and ADF images and visualize them.
-7. Extract an ADF line profile along the Rx direction to locate the Si/SiGe interface.
-
-## Results
-- The **BF image (grayscale) is dominated by diffraction contrast.
-- The **ADF image (colored) shows clear Z-contrast, with the SiGe region appearing brighter than Si.
-- The ADF line profile shows a clear intensity change at approximately 136 nm, corresponding to the Si/SiGe interface.
-
-## Why use virtual detectors?
-Virtual detectors allow different imaging modes to be reconstructed from a single 4D-STEM dataset:
-- No physical detectors are required during acquisition.
-- Detector geometries can be changed in software after the experiment.
-- Multiple imaging modes can be compared without repeating the measurement.
-
-## Outputs
-This notebook generates:
-- Mean and single-point diffraction patterns
-- Radial intensity profiles
-- Virtual BF and ADF images with scale bars
-- Line profile plots highlighting the Si/SiGe interface
+Virtual detectors enable post-acquisition imaging because 4DSTEM records the full 2D diffraction pattern at every scan pixel.
+This results in a rich 4D dataset that preserves the angular distribution of all scattered electrons.
+Post-acquisition imaging is achieved by defining virtual masks on the diffraction pattern in software.
+By mathematically integrating the intensities within these masks, we can synthesize images with arbitrary collection angles (e.g., bright field or annular dark field).
+This effectively allows us to replay experiments after the sample has left the microscope and optimize detector geometry for specific contrast mechanisms (e.g., Z-contrast or diffraction contrast).
