@@ -1,1 +1,5 @@
+1. Traditional Image Processing (Classical): Extracts particles from the background; if particles are stuck together, they are separated using watershed processing.
+2. Machine Learning (ML): Calculates features (size, shape, brightness, texture, etc.) from each particle, using SVM/RF for classification and KMeans for clustering.
+3. Deep Learning (DL): Includes training workflows for CNN (classification) and U-Net (segmentation).
 
+*Methodology
