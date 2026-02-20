@@ -3,3 +3,43 @@
 3. Deep Learning (DL): Includes training workflows for CNN (classification) and U-Net (segmentation).
 
 *Methodology
+
+A. Traditional Image Processing: Extracting Grain. The workflow (per image) is roughly as follows:
+
+1. Convert to grayscale, convert to float (for easier calculations later)
+2. Median filtering to remove noise
+3. CLAHE (local contrast enhancement to make grains clearer)
+4. Otsu thresholding: Because TEM grains are dark, the "dark side" is used as a grain mask
+5. Hole filling to make grains solid
+6. Distance transformation + watershed: Separating grains that are stuck together
+
+B. ML: Converting each grain into a series of numbers (features), then classifying/clustering
+
+1. Feature extraction (calculated from each segmented grain):
+- Size/shape: area, perimeter, diameter, roundness, skewness, solidity…
+- Brightness: average brightness, etc.
+- Advanced: LBP texture, Canny edge ratio, LoG (grabbing blobs), etc.
+2. Classification Labeling: Currently, the "median area" is used to coarsely classify particles into Small/Large (this is a pseudo-label, not ground truth).
+3. Feature Selection: The top 7 features are selected using Random Forest importance and then retrained.
+4. Classification Model: SVM (RBF) and Random Forest (100 trees)
+- Evaluation: Weighted F1 + confusion matrix
+5. Clustering Model: KMeans (k=3,5,7), PCA compressed to 2D for plotting
+- Evaluation: Silhouette score (sampling if necessary)
+
+---
+
+C. Output and Processing:
+- The results have been processed into 3×3 panels (raw/enhanced/watershed, important features, clustering plot, confusion matrix, performance bar chart, particle size distribution, etc.). - Also outputs CSV files:
+- batch_features_raw_unfiltered.csv (all particle features)
+- ml_results_unfiltered.csv (F1, silhouette, etc.)
+- analysis_comparison.csv (comparison table)
+
+*Quantitative comparisons
+I use 
+1.Method Metric Value (accuracy) 2.Metric Type  3.Runtime 4.Interpretability 
+to compare 4 different method { 1.Watershed (Classical) 2.SVM (ML) 3.Random Forest (ML) 4.K-Means (Unsupervised)}
+
+*Recommended use-case
+1.Grain and Particle Size Distribution: Calculates grain size in metallic or ceramic microstructures and automatically generates statistical histograms of equivalent diameters.
+2.Phase Percentage Calculation: Automatically distinguishes different phases using the Otsu threshold method, and then calculates the area ratio of each phase in the material.
+3.4D-STEM Image Processing: Identifies nanoscale feature regions or defect distributions when processing scanning electron microscopy data of semiconductor samples such as Si-SiGe.
