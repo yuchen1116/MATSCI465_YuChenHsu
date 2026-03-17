@@ -22,3 +22,4 @@ hyperspy: 2.3.0
 
 py4dstem: 0.14.0
 
+abTEM version: 1.0.8
